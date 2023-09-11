@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
-import { calculateTotal } from './calculateTotal';
-import { breadChoices, meatChoices, cheeseChoices, toppingChoices } from './prices';
+import { calculateTotal } from './calculateTotal.js';
+import { breadChoices, meatChoices, cheeseChoices, toppingChoices } from './prices.js';
 
 const main = async () => {
     let total = 0;
