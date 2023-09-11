@@ -1,4 +1,5 @@
 import inquirer from 'inquirer';
+import { calculateTotal } from './calculateTotal';
 
 const breadChoices = {
     'Wheat': 0.50,
@@ -29,13 +30,6 @@ const toppingChoices = {
     'Olives': 0.25
 };
 
-const calculateTotal = (choices, answers) => {
-    let total = 0;
-    for (let answer of answers) {
-        total += choices[answer];
-    }
-    return total;
-};
 
 const main = async () => {
     let total = 0;
