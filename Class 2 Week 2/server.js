@@ -21,7 +21,7 @@ app.post('/colors', (req, res) => {
     let colors = req.body.colors;
 
     if (!colors || !Array.isArray(colors)) {
-        return res.status(400).send('Please provide a valid array of colors.');
+        return res.status(400).send('Invalid array');
     }
 
     res.json(colors);
