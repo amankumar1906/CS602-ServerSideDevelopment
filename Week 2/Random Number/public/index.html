@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Guess the Number</title>
+
+    <script>
+    async function checkGuess() {
+    const userGuess = document.getElementById('userGuess').value;
+    const response = await fetch('/random-number');
+    const data = await response.json();
+    const resultDiv = document.getElementById('result');
+
+    if (parseInt(userGuess) === data.number) {
+        resultDiv.innerHTML = '<img src="path-to-happy-image.jpg" alt="Correct!">';
+    } else {
+        resultDiv.innerHTML = '<img src="path-to-sad-image.jpg" alt="Wrong!">';
+    }
+}
+    </script>
+
+</head>
+
+<body>
+    <h1>Guess the Number between 1 and 100</h1>
+    <input type="number" id="userGuess" min="1" max="100">
+    <button onclick="checkGuess()">Submit Guess</button>
+    <div id="result"></div>
+
+</body>
+
+</html>
