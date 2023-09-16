@@ -11,6 +11,15 @@ const logger = (req,res,next) => {
 
 app.use(logger)
 
+app.get('/api/members/:id', (req,res) => {
+    const found = members.some(members => members.id === parseInt(req.params.id))
+    if (found){
+    res.json(members.filter(member => member.id === parseInt(req.params.id)))  //req.params.id returns a string
+    }
+    else{
+        res.status(400).json({msg:'Member not found'})
+    }
+})
 app.get('/api/members', (req,res) => {
     res.json(members)
 })
