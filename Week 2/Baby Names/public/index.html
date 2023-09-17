@@ -5,23 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baby Name Finder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+
 </head>
 
 <body>
-    <h1>Baby Name Finder</h1>
-
-    <label for="genderSelector">Select Gender:</label>
-    <select id="genderSelector">
-        <option value="boy">Boy</option>
-        <option value="girl">Girl</option>
-    </select>
-    <button id="fetchNames">Fetch Names</button>
-
-    <ul id="nameList"></ul>
-
-    <h2>Liked Names</h2>
-    <ul id="likedNamesList"></ul>
-
+    <div class="container">
+        <h1>Baby Name Finder</h1>
+        <label for="genderSelector">Select Gender:</label>
+        <select id="genderSelector">
+            <option value="boy">Boy</option>
+            <option value="girl">Girl</option>
+        </select>
+        <button id="fetchNames">Fetch Names</button>
+        
+        <table id="nameTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Like</th>
+                </tr>
+            </thead>
+            <tbody id="nameList"></tbody>
+        </table>
+        
+        <table id="likedNamesTable">
+            <thead>
+                <tr>
+                    <th>The names you've liked so far!</th>
+                </tr>
+            </thead>
+            <tbody id="likedNamesList"></tbody>
+        </table>
+        
+    </div>
     <script>
         async function getNewNames(gender) {
             const response = await fetch('/new-names', {
@@ -35,28 +54,32 @@
         }
 
         function displayNames(names) {
-        const nameList = document.getElementById('nameList');
-        nameList.innerHTML = '';
+    const nameList = document.getElementById('nameList');
+    nameList.innerHTML = '';
 
-        names.forEach(name => {
-            const listItem = document.createElement('li');
-            const nameSpan = document.createElement('span');
-            nameSpan.textContent = name;
-            
-            const likeButton = document.createElement('button');
-            likeButton.textContent = '❤️'; // Heart symbol
-            likeButton.style.marginLeft = '10px';
-            
-            likeButton.addEventListener('click', async () => {
-                await likeName(name);
-                updateLikedNames();
-            });
-            
-            listItem.appendChild(nameSpan);
-            listItem.appendChild(likeButton);
-            nameList.appendChild(listItem);
+    names.forEach(name => {
+        const row = document.createElement('tr');
+        
+        const nameCell = document.createElement('td');
+        nameCell.textContent = name;
+        row.appendChild(nameCell);
+
+        const actionCell = document.createElement('td');
+        const likeButton = document.createElement('i');
+        likeButton.className = 'fas fa-heart';
+        
+        likeButton.addEventListener('click', async () => {
+            await likeName(name);
+            updateLikedNames();
         });
+
+        actionCell.appendChild(likeButton);
+        row.appendChild(actionCell);
+
+        nameList.appendChild(row);
+    });
 }
+
 
 
         async function likeName(name) {
@@ -76,16 +99,20 @@
         }
 
         async function updateLikedNames() {
-            const likedNamesList = document.getElementById('likedNamesList');
-            likedNamesList.innerHTML = '';
+        const likedNamesList = document.getElementById('likedNamesList');
+        likedNamesList.innerHTML = '';
 
-            const names = await getLikedNames();
-            names.forEach(name => {
-                const listItem = document.createElement('li');
-                listItem.textContent = name;
-                likedNamesList.appendChild(listItem);
-            });
-        }
+        const names = await getLikedNames();
+        names.forEach(name => {
+            const row = document.createElement('tr');
+            
+            const nameCell = document.createElement('td');
+            nameCell.textContent = name;
+            row.appendChild(nameCell);
+
+            likedNamesList.appendChild(row);
+        });
+}
 
         document.getElementById('fetchNames').addEventListener('click', async () => {
             const gender = document.getElementById('genderSelector').value;
