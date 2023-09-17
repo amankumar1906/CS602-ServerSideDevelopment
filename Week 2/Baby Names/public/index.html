@@ -1,127 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Baby Name Finder</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+  </head>
 
-
-</head>
-
-<body>
+  <body>
     <div class="container">
-        <h1>Baby Name Finder</h1>
-        <label for="genderSelector">Select Gender:</label>
-        <select id="genderSelector">
-            <option value="boy">Boy</option>
-            <option value="girl">Girl</option>
-        </select>
-        <button id="fetchNames">Fetch Names</button>
-        
-        <table id="nameTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Like</th>
-                </tr>
-            </thead>
-            <tbody id="nameList"></tbody>
-        </table>
-        
-        <table id="likedNamesTable">
-            <thead>
-                <tr>
-                    <th>The names you've liked so far!</th>
-                </tr>
-            </thead>
-            <tbody id="likedNamesList"></tbody>
-        </table>
-        
+      <h1>Baby Name Finder</h1>
+      <label for="genderSelector">Select Gender:</label>
+      <select id="genderSelector">
+        <option value="boy">Boy</option>
+        <option value="girl">Girl</option>
+      </select>
+      <button id="fetchNames">Fetch Names</button>
+
+      <table id="nameTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Like</th>
+          </tr>
+        </thead>
+        <tbody id="nameList"></tbody>
+      </table>
+
+      <table id="likedNamesTable">
+        <thead>
+          <tr>
+            <th>The names you've liked so far!</th>
+          </tr>
+        </thead>
+        <tbody id="likedNamesList"></tbody>
+      </table>
     </div>
     <script>
-        async function getNewNames(gender) {
-            const response = await fetch('/new-names', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ gender })
-            });
-            return await response.json();
-        }
+      async function getNewNames(gender) {
+        const response = await fetch("/new-names", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ gender }),
+        });
+        return await response.json();
+      }
 
-        function displayNames(names) {
-    const nameList = document.getElementById('nameList');
-    nameList.innerHTML = '';
+      function displayNames(names) {
+        const nameList = document.getElementById("nameList");
+        nameList.innerHTML = "";
 
-    names.forEach(name => {
-        const row = document.createElement('tr');
-        
-        const nameCell = document.createElement('td');
-        nameCell.textContent = name;
-        row.appendChild(nameCell);
+        names.forEach((name) => {
+          const row = document.createElement("tr");
 
-        const actionCell = document.createElement('td');
-        const likeButton = document.createElement('i');
-        likeButton.className = 'fas fa-heart';
-        
-        likeButton.addEventListener('click', async () => {
+          const nameCell = document.createElement("td");
+          nameCell.textContent = name;
+          row.appendChild(nameCell);
+
+          const actionCell = document.createElement("td");
+          const likeButton = document.createElement("i");
+          likeButton.className = "fas fa-heart";
+
+          likeButton.addEventListener("click", async () => {
             await likeName(name);
             updateLikedNames();
+          });
+
+          actionCell.appendChild(likeButton);
+          row.appendChild(actionCell);
+
+          nameList.appendChild(row);
         });
+      }
 
-        actionCell.appendChild(likeButton);
-        row.appendChild(actionCell);
+      async function likeName(name) {
+        const response = await fetch("/like-name", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name }),
+        });
+        return await response.json();
+      }
 
-        nameList.appendChild(row);
-    });
-}
+      async function getLikedNames() {
+        const response = await fetch("/liked-names");
+        return await response.json();
+      }
 
-
-
-        async function likeName(name) {
-            const response = await fetch('/like-name', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name })
-            });
-            return await response.json();
-        }
-
-        async function getLikedNames() {
-            const response = await fetch('/liked-names');
-            return await response.json();
-        }
-
-        async function updateLikedNames() {
-        const likedNamesList = document.getElementById('likedNamesList');
-        likedNamesList.innerHTML = '';
+      async function updateLikedNames() {
+        const likedNamesList = document.getElementById("likedNamesList");
+        likedNamesList.innerHTML = "";
 
         const names = await getLikedNames();
-        names.forEach(name => {
-            const row = document.createElement('tr');
-            
-            const nameCell = document.createElement('td');
-            nameCell.textContent = name;
-            row.appendChild(nameCell);
+        names.forEach((name) => {
+          const row = document.createElement("tr");
 
-            likedNamesList.appendChild(row);
+          const nameCell = document.createElement("td");
+          nameCell.textContent = name;
+          row.appendChild(nameCell);
+
+          likedNamesList.appendChild(row);
         });
-}
+      }
 
-        document.getElementById('fetchNames').addEventListener('click', async () => {
-            const gender = document.getElementById('genderSelector').value;
-            const names = await getNewNames(gender);
-            displayNames(names);
+      document
+        .getElementById("fetchNames")
+        .addEventListener("click", async () => {
+          const gender = document.getElementById("genderSelector").value;
+          const names = await getNewNames(gender);
+          displayNames(names);
         });
 
-        updateLikedNames();
+      updateLikedNames();
     </script>
-</body>
-
+  </body>
 </html>
