@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
     <title>Guess the Number</title>
 
     <script>
-    async function checkGuess() {
-    const userGuess = document.getElementById('userGuess').value;
-    const response = await fetch('/random-number');
-    const data = await response.json();
-    const resultDiv = document.getElementById('result');
+      async function checkGuess() {
+        const userGuess = document.getElementById("userGuess").value;
+        const response = await fetch("/random-number");
+        const data = await response.json();
+        const resultDiv = document.getElementById("result");
 
-    if (parseInt(userGuess) === data.number) {
-        resultDiv.innerHTML = '<i class="fas fa-smile" style="color: #0ecc00;"></i> Correct! That was a 1/100 chance. Congrats!';
-    } else {
-    resultDiv.innerHTML = `<i class="fas fa-sad-cry" style="color: #d01616;"></i> Incorrect! The correct number was ${data.number}. Please try again!`;
-}
-
-}
+        if (parseInt(userGuess) === data.number) {
+          resultDiv.innerHTML =
+            '<i class="fas fa-smile" style="color: #0ecc00;"></i> Correct! That was a 1/100 chance. Congrats!';
+        } else {
+          resultDiv.innerHTML = `<i class="fas fa-sad-cry" style="color: #d01616;"></i> Incorrect! The correct number was ${data.number}. Please try again!`;
+        }
+      }
     </script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="container">
-    <h1>Guess the Number between 1 and 100</h1>
-    <input type="number" id="userGuess" min="1" max="100" placeholder="Enter Number">
-    <button onclick="checkGuess()">Guess</button>
-    <div id="result"></div>
+      <h1>Guess the Number between 1 and 100</h1>
+      <input
+        type="number"
+        id="userGuess"
+        min="1"
+        max="100"
+        placeholder="Enter Number"
+      />
+      <button onclick="checkGuess()">Guess</button>
+      <div id="result"></div>
     </div>
-
-</body>
-
+  </body>
 </html>
