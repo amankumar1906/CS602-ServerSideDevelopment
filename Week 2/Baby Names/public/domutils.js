@@ -1,4 +1,3 @@
-// domUtils.js
 export function displayNames(names, callback) {
   const nameList = document.getElementById("nameList");
   nameList.innerHTML = "";
