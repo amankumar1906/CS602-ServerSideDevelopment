@@ -2,15 +2,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, "public")));
 
+const API_URL = process.env.API_URL;
+const API_KEY = process.env.API_KEY;
+
 const PORT = 3000;
-const API_URL = "https://api.api-ninjas.com/v1/babynames?gender=";
-const API_KEY = "llUxbYzGNiQpblViG7TjqA==krCxWzytSH4A3LUM";
 
 const likedNames = [];
 
