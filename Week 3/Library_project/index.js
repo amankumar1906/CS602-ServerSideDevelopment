@@ -1,154 +1,16 @@
-class Item {
-  constructor(ID, title) {
-    this.ID = ID;
-    this.title = title;
-  }
-
-  getID() {
-    return this.ID;
-  }
-
-  getDescription() {
-    throw new Error("Method 'getDescription()' must be implemented.");
-  }
-}
-
-// Book Class
-class Book extends Item {
-  constructor(ID, title, author, ISBN) {
-    super(ID, title);
-    this.author = author;
-    this.ISBN = ISBN;
-    this.status = "available";
-  }
-
-  getDescription() {
-    return `${this.title} by ${this.author} (Status: ${this.status})`;
-  }
-
-  checkOut() {
-    this.status = "checked out";
-  }
-
-  getAuthor() {
-    return this.author;
-  }
-
-  getISBN() {
-    return this.ISBN;
-  }
-
-  getStatus() {
-    return this.status;
-  }
-}
-
-class Magazine extends Item {
-  constructor(ID, title, issue) {
-    super(ID, title);
-    this.issue = issue;
-  }
-
-  getDescription() {
-    return `${this.title} - Issue: ${this.issue}`;
-  }
-}
-
-class DVD extends Item {
-  constructor(ID, title, director) {
-    super(ID, title);
-    this.director = director;
-    this.status = "available";
-  }
-
-  getDescription() {
-    return `${this.title} directed by ${this.director} (Status: ${this.status})`;
-  }
-
-  checkOut() {
-    this.status = "checked out";
-  }
-}
-
-class CD extends Item {
-  constructor(ID, title, artist) {
-    super(ID, title);
-    this.artist = artist;
-    this.isPlaying = false;
-  }
-
-  getDescription() {
-    return `${this.title} by ${this.artist}`;
-  }
-
-  play() {
-    this.isPlaying = true;
-  }
-}
-
-class Newspaper extends Item {
-  constructor(ID, title, date) {
-    super(ID, title);
-    this.date = date;
-  }
-
-  getDescription() {
-    return `${this.title} - Date: ${this.date}`;
-  }
-}
-
-class Journal extends Item {
-  constructor(ID, title, volume) {
-    super(ID, title);
-    this.volume = volume;
-  }
-
-  getDescription() {
-    return `${this.title} - Volume: ${this.volume}`;
-  }
-}
-
-class Ebook extends Item {
-  constructor(ID, title, author, fileSize) {
-    super(ID, title);
-    this.author = author;
-    this.fileSize = fileSize;
-  }
-
-  getDescription() {
-    return `${this.title} by ${this.author} (File Size: ${this.fileSize}MB)`;
-  }
-
-  read() {
-    console.log(`Reading ${this.title} by ${this.author}...`);
-  }
-}
-
-class Bluray extends DVD {
-  constructor(ID, title, director, resolution) {
-    super(ID, title, director);
-    this.resolution = resolution;
-  }
-
-  getDescription() {
-    return `${super.getDescription()} (Resolution: ${this.resolution}p)`;
-  }
-}
-
-class VideoGame extends Item {
-  constructor(ID, title, platform) {
-    super(ID, title);
-    this.platform = platform;
-  }
-
-  getDescription() {
-    return `${this.title} for ${this.platform}`;
-  }
-
-  play() {
-    console.log(`Playing ${this.title} on ${this.platform}...`);
-  }
-}
+import {
+  ItemStatus,
+  Item,
+  Book,
+  Magazine,
+  DVD,
+  CD,
+  Newspaper,
+  Journal,
+  Ebook,
+  Bluray,
+  VideoGame,
+} from "./libraryItem.js";
 
 // Library Class
 class Library {
@@ -163,7 +25,11 @@ class Library {
   }
 
   removeItem(ID) {
-    delete this.items[ID];
+    if (this.items[ID]) {
+      delete this.items[ID];
+    } else {
+      console.warn(`Item with ID ${ID} does not exist in the library.`);
+    }
   }
 
   getAllItems() {
@@ -179,30 +45,27 @@ function printLibraryContents(library) {
   for (const id in items) {
     const item = items[id];
     let details = "";
-    let action = "";
+    let status = item.getStatus();
 
     if (item instanceof Book) {
       details = `${item.author}, ISBN: ${item.ISBN}`;
-      action = item.getStatus();
     } else if (item instanceof Magazine) {
       details = `Issue: ${item.issue}`;
-    } else if (item instanceof DVD) {
+    } else if (item instanceof DVD || item instanceof Bluray) {
       details = `Directed by: ${item.director}`;
-      action = item.status;
+      if (item instanceof Bluray) {
+        details += `, Resolution: ${item.resolution}p`;
+      }
     } else if (item instanceof CD) {
       details = `Artist: ${item.artist}`;
-      action = item.isPlaying ? "Playing" : "";
     } else if (item instanceof Newspaper) {
       details = `Date: ${item.date}`;
     } else if (item instanceof Journal) {
       details = `Volume: ${item.volume}`;
     } else if (item instanceof Ebook) {
       details = `${item.author}, File Size: ${item.fileSize}MB`;
-    } else if (item instanceof Bluray) {
-      details = `Directed by: ${item.director}, Resolution: ${item.resolution}p`;
     } else if (item instanceof VideoGame) {
       details = `Platform: ${item.platform}`;
-      action = "Ready to Play";
     }
 
     tableArray.push({
@@ -210,7 +73,7 @@ function printLibraryContents(library) {
       Title: item.title,
       Type: item.constructor.name,
       Details: details,
-      Status_Action: action,
+      Status: status,
     });
   }
 
@@ -262,7 +125,6 @@ function testLibraryFunctions() {
   // 7. Play a CD
   const cd1 = new CD(5, "Dark Side of the Moon", "Pink Floyd");
   library.addItem(cd1);
-  cd1.play();
   printLibraryContents(library);
 
   // 8. Read an Ebook
@@ -305,6 +167,15 @@ function testLibraryFunctions() {
   const game2 = new VideoGame(12, "Red Dead Redemption 2", "PS5");
   library.addItem(cd2);
   library.addItem(game2);
+  printLibraryContents(library);
+
+  // 16. Loan out a CD and Book
+  cd2.loan();
+  book2.loan();
+  printLibraryContents(library);
+
+  // 17. Return the Book
+  book2.setStatus(ItemStatus.AVAILABLE);
   printLibraryContents(library);
 }
 
