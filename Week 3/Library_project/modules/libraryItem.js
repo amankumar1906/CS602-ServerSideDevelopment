@@ -60,6 +60,7 @@ export class Book extends Item {
   }
 }
 
+//Magazine: Subclass of Item class
 export class Magazine extends Item {
   constructor(ID, title, issue) {
     super(ID, title);
@@ -71,6 +72,7 @@ export class Magazine extends Item {
   }
 }
 
+//DVD: Subclass of Item class
 export class DVD extends Item {
   constructor(ID, title, director) {
     super(ID, title);
@@ -82,6 +84,7 @@ export class DVD extends Item {
   }
 }
 
+//CD: Subclass of Item class
 export class CD extends Item {
   constructor(ID, title, artist) {
     super(ID, title);
@@ -93,6 +96,7 @@ export class CD extends Item {
   }
 }
 
+//Newspaper: Subclass of Item class
 export class Newspaper extends Item {
   constructor(ID, title, date) {
     super(ID, title);
@@ -104,6 +108,7 @@ export class Newspaper extends Item {
   }
 }
 
+//Journal: Subclass of Item class
 export class Journal extends Item {
   constructor(ID, title, volume) {
     super(ID, title);
@@ -142,7 +147,7 @@ export class Bluray extends DVD {
   }
 }
 
-//Videgame: Subclass of Item class
+//Videogame: Subclass of Item class
 export class VideoGame extends Item {
   constructor(ID, title, platform) {
     super(ID, title);
