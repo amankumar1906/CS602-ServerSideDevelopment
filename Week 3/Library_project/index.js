@@ -174,10 +174,50 @@ class Library {
 // Helper function to print the contents of the library
 function printLibraryContents(library) {
   const items = library.getAllItems();
-  if (Object.keys(items).length === 0) {
+  const tableArray = [];
+
+  for (const id in items) {
+    const item = items[id];
+    let details = "";
+    let action = "";
+
+    if (item instanceof Book) {
+      details = `${item.author}, ISBN: ${item.ISBN}`;
+      action = item.getStatus();
+    } else if (item instanceof Magazine) {
+      details = `Issue: ${item.issue}`;
+    } else if (item instanceof DVD) {
+      details = `Directed by: ${item.director}`;
+      action = item.status;
+    } else if (item instanceof CD) {
+      details = `Artist: ${item.artist}`;
+      action = item.isPlaying ? "Playing" : "";
+    } else if (item instanceof Newspaper) {
+      details = `Date: ${item.date}`;
+    } else if (item instanceof Journal) {
+      details = `Volume: ${item.volume}`;
+    } else if (item instanceof Ebook) {
+      details = `${item.author}, File Size: ${item.fileSize}MB`;
+    } else if (item instanceof Bluray) {
+      details = `Directed by: ${item.director}, Resolution: ${item.resolution}p`;
+    } else if (item instanceof VideoGame) {
+      details = `Platform: ${item.platform}`;
+      action = "Ready to Play";
+    }
+
+    tableArray.push({
+      ID: item.getID(),
+      Title: item.title,
+      Type: item.constructor.name,
+      Details: details,
+      Status_Action: action,
+    });
+  }
+
+  if (tableArray.length === 0) {
     console.log("Library is empty.");
   } else {
-    console.table(items);
+    console.table(tableArray);
   }
   console.log("-".repeat(30));
 }
@@ -240,6 +280,31 @@ function testLibraryFunctions() {
   const game1 = new VideoGame(8, "The Witcher 3", "PC");
   library.addItem(game1);
   game1.play();
+  printLibraryContents(library);
+
+  // 11. Add a Newspaper
+  const newspaper1 = new Newspaper(9, "The New York Times", "24 Sep 2023");
+  library.addItem(newspaper1);
+  printLibraryContents(library);
+
+  // 12. Remove a Newspaper
+  library.removeItem(9);
+  printLibraryContents(library);
+
+  // 13. Add a Journal
+  const journal1 = new Journal(10, "Nature Physics", "Vol. 123 No. 9");
+  library.addItem(journal1);
+  printLibraryContents(library);
+
+  // 14. Remove a Journal
+  library.removeItem(10);
+  printLibraryContents(library);
+
+  // 15. Add more items
+  const cd2 = new CD(11, "Abbey Road", "The Beatles");
+  const game2 = new VideoGame(12, "Red Dead Redemption 2", "PS5");
+  library.addItem(cd2);
+  library.addItem(game2);
   printLibraryContents(library);
 }
 
