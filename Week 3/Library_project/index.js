@@ -1,8 +1,5 @@
 class Item {
   constructor(ID, title) {
-    if (new.target === Item) {
-      throw new TypeError("Cannot construct Abstract instances directly");
-    }
     this.ID = ID;
     this.title = title;
   }
