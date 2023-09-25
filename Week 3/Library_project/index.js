@@ -10,8 +10,8 @@ import {
   Ebook,
   Bluray,
   VideoGame,
-} from "./libraryItem.js";
-
+} from "./modules/libraryItem.js";
+import { printLibraryContents } from "./modules/printItems.js";
 // Library Class
 class Library {
   constructor() {
@@ -35,54 +35,6 @@ class Library {
   getAllItems() {
     return this.items;
   }
-}
-
-// Helper function to print the contents of the library
-function printLibraryContents(library) {
-  const items = library.getAllItems();
-  const tableArray = [];
-
-  for (const id in items) {
-    const item = items[id];
-    let details = "";
-    let status = item.getStatus();
-
-    if (item instanceof Book) {
-      details = `${item.author}, ISBN: ${item.ISBN}`;
-    } else if (item instanceof Magazine) {
-      details = `Issue: ${item.issue}`;
-    } else if (item instanceof DVD || item instanceof Bluray) {
-      details = `Directed by: ${item.director}`;
-      if (item instanceof Bluray) {
-        details += `, Resolution: ${item.resolution}p`;
-      }
-    } else if (item instanceof CD) {
-      details = `Artist: ${item.artist}`;
-    } else if (item instanceof Newspaper) {
-      details = `Date: ${item.date}`;
-    } else if (item instanceof Journal) {
-      details = `Volume: ${item.volume}`;
-    } else if (item instanceof Ebook) {
-      details = `${item.author}, File Size: ${item.fileSize}MB`;
-    } else if (item instanceof VideoGame) {
-      details = `Platform: ${item.platform}`;
-    }
-
-    tableArray.push({
-      ID: item.getID(),
-      Title: item.title,
-      Type: item.constructor.name,
-      Details: details,
-      Status: status,
-    });
-  }
-
-  if (tableArray.length === 0) {
-    console.log("Library is empty.");
-  } else {
-    console.table(tableArray);
-  }
-  console.log("-".repeat(30));
 }
 
 // Functional Tests
@@ -130,7 +82,6 @@ function testLibraryFunctions() {
   // 8. Read an Ebook
   const ebook1 = new Ebook(6, "Digital Fortess", "Dan Brown", 5);
   library.addItem(ebook1);
-  ebook1.read();
   printLibraryContents(library);
 
   // 9. Play a Blu-ray
@@ -141,7 +92,6 @@ function testLibraryFunctions() {
   // 10. Play a video game
   const game1 = new VideoGame(8, "The Witcher 3", "PC");
   library.addItem(game1);
-  game1.play();
   printLibraryContents(library);
 
   // 11. Add a Newspaper

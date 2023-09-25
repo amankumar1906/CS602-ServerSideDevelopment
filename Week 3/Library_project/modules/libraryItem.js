@@ -126,10 +126,6 @@ export class Ebook extends Item {
   getDescription() {
     return `${this.title} by ${this.author} (File Size: ${this.fileSize}MB) (Status: ${this.status})`;
   }
-
-  read() {
-    console.log(`Reading ${this.title} by ${this.author}...`);
-  }
 }
 
 //Bluray: Subclass of DVD class
@@ -155,9 +151,5 @@ export class VideoGame extends Item {
 
   getDescription() {
     return `${this.title} for ${this.platform} (Status: ${this.status})`;
-  }
-
-  play() {
-    console.log(`Playing ${this.title} on ${this.platform}...`);
   }
 }
