@@ -1,5 +1,5 @@
 function getNumbers() {
-  fetch("http://localhost:3000/getNumbers")
+  fetch("http://localhost:3001/getNumbers")
     .then((response) => response.json())
     .then((data) => {
       currentNumbers = data;
