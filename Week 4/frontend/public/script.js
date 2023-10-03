@@ -1,3 +1,4 @@
+// Fetches a new set of lottery numbers from the server
 function getNumbers() {
   fetch("http://localhost:3001/getNumbers")
     .then((response) => response.json())
@@ -11,6 +12,7 @@ function getNumbers() {
     });
 }
 
+// Saves the current set of numbers to the browser's local storage
 function saveNumbers() {
   if (currentNumbers) {
     const saved = JSON.parse(localStorage.getItem("lotteryNumbers") || "[]");
@@ -19,6 +21,7 @@ function saveNumbers() {
   }
 }
 
+// Displays all the saved sets of lottery numbers from the local storage
 function displaySavedNumbers() {
   const saved = JSON.parse(localStorage.getItem("lotteryNumbers") || "[]");
   let html = "";
@@ -30,6 +33,7 @@ function displaySavedNumbers() {
   document.getElementById("savedNumbers").innerHTML = html;
 }
 
+// Deletes a saved set of numbers from the local storage based on its index
 function deleteNumber(index) {
   const saved = JSON.parse(localStorage.getItem("lotteryNumbers") || "[]");
   saved.splice(index, 1);
