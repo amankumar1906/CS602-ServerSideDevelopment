@@ -1,0 +1,4 @@
+The next() function is used to trigger the execution of the next middleware in the middleware stack. This is needed to prevent hanging requests.
+It basically signals Express that the current middleware has completed its job and the next middleware function/router handler can be invoked. 
+
+Example:
