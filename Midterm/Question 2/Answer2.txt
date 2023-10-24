@@ -1,0 +1,6 @@
+Import is associated with ES6 module system while require is a part of CommonJS module system.
+The following points are worth noting:
+1) `import` is asynchronous while `require` is synchronous.
+2) `require` is considered to be more dynamic than `import` since `import` is statically analyzed by the JS engine.
+3) `import` is compatible with both, frontend and backend while `require` is generally used for backend Node.js development.
+4) 'import' can support default exports while `require` does not.
