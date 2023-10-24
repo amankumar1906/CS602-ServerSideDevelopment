@@ -1,0 +1,14 @@
+We use the `Access-Control-Allow-Methods` to restrict the HTTP methods.
+In our case, we will use the following header:
+Access-Control-Allow-Methods: GET, POST
+
+If we are using Express.js:
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Methods', 'GET, POST');
+});
+
+
+If we are using PHP:
+<?php
+header('Access-Control-Allow-Methods: GET, POST');
+?>
