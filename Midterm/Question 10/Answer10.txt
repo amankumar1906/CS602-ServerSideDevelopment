@@ -1,0 +1,10 @@
+To switch to the ES6 module system, we will need to update our package.json and add the following line:
+"type": "module"
+
+Once this is done, all the "require" statements can be switched to "import" statements.
+For example,
+const Server = require("BTS_Army");
+is changed to
+import {Server} from "BTS_Army"; //This shall only work if there is an export statement for Server in BTS_Army module.
+
+Upon changing all such required imports, we can run the file using `node app.js` and it shall run as expected.
