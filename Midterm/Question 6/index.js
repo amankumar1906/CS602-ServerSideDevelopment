@@ -12,8 +12,13 @@
 const fs = require("fs");
 
 function loadConfig() {
-  const data = fs.readFileSync("config.txt", "binary");
-  return Buffer.from(data);
+  try {
+    const data = fs.readFileSync("config.txt", "binary");
+    return Buffer.from(data);
+  } catch (err) {
+    console.error("Error reading config file:", err);
+    return null;
+  }
 }
 
 module.exports = {
