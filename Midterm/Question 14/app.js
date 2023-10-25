@@ -1,7 +1,8 @@
 // We define a number of algorithms that can be interchanged on the fly. In my case it is Even/Odd filtering.
 // 'NumberFinder' basically delegates its number-finding behavior to the current strategy
 // The even and odd strategies use a common interface NumberFinder.js
-// We can dynamically change strategies using 'setStrategy'.
+// We can dynamically change strategies using 'setStrategy'
+// This is how Strategy Design Pattern is implemented.
 
 const NumberFinder = require("./NumberFinder");
 const EvenNumberStrategy = require("./strategies/EvenNumberStrategy");
